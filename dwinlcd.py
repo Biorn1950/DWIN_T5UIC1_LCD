@@ -567,10 +567,10 @@ class DWIN_LCD:
 			elif self.select_prepare.now == self.PREPARE_CASE_HOME:  # Homing
 				self.checkkey = self.Last_Prepare
 				self.index_prepare = self.MROWS
+				self.Popup_Window_Home()
 				self.pd.queue("G28")
 				self.pd.current_position.homing()
 				self.pd.HMI_flag.home_flag = True
-				self.Popup_Window_Home()
 			elif self.select_prepare.now == self.PREPARE_CASE_ZOFF:  # Z-offset
 				self.checkkey = self.Homeoffset
 				self.pd.probe_calibrate()
