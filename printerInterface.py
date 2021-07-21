@@ -174,7 +174,7 @@ class klippySocket:
 				self.send_line()
 
 
-class octoprintSocket:
+class moonrakerSocket:
 	def __init__(self, address, port, api_key):
 		self.s = requests.Session()
 		self.s.headers.update({
@@ -246,8 +246,8 @@ class PrinterData:
 	SHORT_BUILD_VERSION = "1.00"
 	CORP_WEBSITE_E = "https://www.klipper3d.org/"
 
-	def __init__(self, octoPrint_API_Key, octoPrint_URL='127.0.0.1'):
-		self.op = octoprintSocket(octoPrint_URL, 80, octoPrint_API_Key)
+	def __init__(self, moonraker_API_Key, moonraker_URL='127.0.0.1'):
+		self.op = moonrakerSocket(moonraker_URL, 7125, moonraker_API_Key)
 		self.status = None
 		print(self.op.base_address)
 		self.ks = klippySocket('/tmp/klippy_uds', callback=self.klippy_callback)
@@ -353,15 +353,19 @@ class PrinterData:
 		if self.getREST('/api/printer') is None:
 			return
 		self.update_variable()
-		ppp = self.getREST('/api/printerprofiles/_default')
-		self.SHORT_BUILD_VERSION = ppp['model']
-		self.MACHINE_SIZE = "{}x{}x{}".format(
-			int(ppp['volume']['depth']),
-			int(ppp['volume']['width']),
-			int(ppp['volume']['height'])
-		)
-		self.X_MAX_POS = int(ppp['volume']['width'])
-		self.Y_MAX_POS = int(ppp['volume']['depth'])
+### to_fix ###
+		#ppp = self.getREST('/api/printerprofiles/_default')
+		#self.SHORT_BUILD_VERSION = ppp['model']
+		#self.MACHINE_SIZE = "{}x{}x{}".format(
+		#	int(ppp['volume']['depth']),
+		#	int(ppp['volume']['width']),
+		#	int(ppp['volume']['height'])
+		#)
+		#self.X_MAX_POS = int(ppp['volume']['width'])
+		#self.Y_MAX_POS = int(ppp['volume']['depth'])
+		self.X_MAX_POS = '220'
+		self.Y_MAX_POS = '220'
+### fix_to ###
 
 	def GetFiles(self, refresh=False):
 		if not self.fliles or refresh:
@@ -373,6 +377,7 @@ class PrinterData:
 
 	def update_variable(self):
 		self.state = self.getREST('/api/printer')
+		self.fan = self.getREST('/printer/objects/query?fan')
 		Update = False
 		if self.state:
 			if "temperature" in self.state:
@@ -385,19 +390,39 @@ class PrinterData:
 					if self.thermalManager['temp_bed']['target'] != int(self.state["temperature"]["bed"]["target"]):
 						self.thermalManager['temp_bed']['target'] = int(self.state["temperature"]["bed"]["target"])
 						Update = True
+				else:
+					self.thermalManager['temp_bed']['target'] = '0'
+					Update = True
 
 				if self.state["temperature"]["tool0"]["target"]:
 					if self.thermalManager['temp_hotend'][0]['target'] != int(self.state["temperature"]["tool0"]["target"]):
 						self.thermalManager['temp_hotend'][0]['target'] = int(self.state["temperature"]["tool0"]["target"])
 						Update = True
+				else:
+					self.thermalManager['temp_hotend'][0]['target'] = '0'
+					Update = True
 
 				if self.state["temperature"]["tool0"]["actual"]:
 					if self.thermalManager['temp_hotend'][0]['celsius'] != int(self.state["temperature"]["tool0"]["actual"]):
 						self.thermalManager['temp_hotend'][0]['celsius'] = int(self.state["temperature"]["tool0"]["actual"])
 						Update = True
+
+				if self.fan['result']['status']['fan']['speed']:
+					if self.thermalManager['fan_speed'][0] != int(self.fan['result']['status']['fan']['speed']  * 100):
+						self.thermalManager['fan_speed'][0] = int(self.fan['result']['status']['fan']['speed'] * 100)
+						Update = True
+				else:
+					if self.thermalManager['fan_speed'][0] != '0':
+						self.thermalManager['fan_speed'][0] = '0'
+						Update = True
+
+		self.print_stats = self.getREST('/printer/objects/query?print_stats&display_status')
+		if self.print_stats:
+			self.file_name = self.print_stats['result']['status']['print_stats']['filename']
 		self.job_Info = self.getREST('/api/job')
 		if self.job_Info:
-			self.file_name = self.job_Info['job']['file']['name']
+#to_fix
+#			self.file_name = self.job_Info['job']['file']['name']
 			self.status = self.job_Info['state']
 			self.HMI_flag.print_finish = self.getPercent() == 100.0
 		return Update
@@ -406,8 +431,8 @@ class PrinterData:
 		return self.job_Info['state'] == "Paused" or self.job_Info['state'] == "Pausing"
 
 	def getPercent(self):
-		if self.job_Info["progress"]["completion"]:
-			return self.job_Info["progress"]["completion"]
+		if self.print_stats["result"]["status"]["display_status"]["progress"]:
+			return self.print_stats["result"]["status"]["display_status"]["progress"] * 100
 		else:
 			return 0
 
@@ -427,19 +452,19 @@ class PrinterData:
 
 	def queue(self, gcode):
 		print('Sending gcode: ', gcode)
-		self.postREST('/api/printer/command', json={'command': gcode})
+		self.postREST('/printer/gcode/script', json={'script': gcode})
 
 	def cancel_job(self):
 		print('Canceling job:')
-		self.postREST('/api/job', json={'command': 'cancel'})
+		self.postREST('/printer/gcode/script', json={'script': 'CANCEL'})
 
 	def pause_job(self):
-		print('Pauseing job:')
-		self.postREST('/api/job', json={'command': 'pause'})
+		print('Pausing job:')
+		self.postREST('/printer/gcode/script', json={'script': 'PAUSE'})
 
 	def resume_job(self):
-		print('Resumeing job:')
-		self.pause_job()
+		print('Resuming job:')
+		self.postREST('/printer/gcode/script', json={'script': 'RESUME'})
 
 	def set_feedrate(self, fr):
 		self.feedrate_percentage = fr

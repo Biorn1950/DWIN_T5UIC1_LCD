@@ -1544,6 +1544,7 @@ class DWIN_LCD:
 				self.lcd.Color_Bg_Black, 3, 178, 382,
 				self.pd.thermalManager['temp_bed']['celsius']
 			)
+		if self.pd.thermalManager['temp_bed']['target'] != '0':
 			self.lcd.Draw_String(
 				False, False, self.lcd.DWIN_FONT_STAT, self.lcd.Color_White,
 				self.lcd.Color_Bg_Black, 178 + 3 * self.STAT_CHR_W + 5, 383,
@@ -1555,11 +1556,11 @@ class DWIN_LCD:
 				self.pd.thermalManager['temp_bed']['target']
 			)
 
-		self.lcd.ICON_Show(self.ICON, self.ICON_Speed, 13, 429)
+		self.lcd.ICON_Show(self.ICON, self.ICON_FanSpeed, 13, 429)
 		self.lcd.Draw_IntValue(
 			True, True, 0, self.lcd.DWIN_FONT_STAT,
 			self.lcd.Color_White, self.lcd.Color_Bg_Black, 3, 33 + 2 * self.STAT_CHR_W, 429,
-			self.pd.feedrate_percentage
+			self.pd.thermalManager['fan_speed'][0]
 		)
 		self.lcd.Draw_String(
 			False, False, self.lcd.DWIN_FONT_STAT,
@@ -1937,7 +1938,8 @@ class DWIN_LCD:
 
 		self.Draw_Print_ProgressBar()
 		self.Draw_Print_ProgressElapsed()
-		self.Draw_Print_ProgressRemain()
+# to_fix		
+		#self.Draw_Print_ProgressRemain()
 
 	# --------------------------------------------------------------#
 	# --------------------------------------------------------------#
@@ -2216,7 +2218,8 @@ class DWIN_LCD:
 					self.ICON_Pause()
 			self.Draw_Print_ProgressBar()
 			self.Draw_Print_ProgressElapsed()
-			self.Draw_Print_ProgressRemain()
+# to_fix
+			# self.Draw_Print_ProgressRemain()
 
 		if self.pd.HMI_flag.home_flag:
 			if self.pd.ishomed():
