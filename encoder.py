@@ -22,36 +22,36 @@ class Encoder:
         p2 = GPIO.input(self.rightPin)
         newState = "{}{}".format(p1, p2)
 
-        if self.state == "00": # Resting position
+        if self.state == "11": # Resting position
             if newState == "01": # Turned right 1
                 self.direction = "R"
             elif newState == "10": # Turned left 1
                 self.direction = "L"
 
         elif self.state == "01": # R1 or L3 position
-            if newState == "11": # Turned right 1
+            if newState == "00": # Turned right 1
                 self.direction = "R"
-            elif newState == "00": # Turned left 1
+            elif newState == "11": # Turned left 1
                 if self.direction == "L":
                     self.value = self.value - 1
                     if self.callback is not None:
                         self.callback(self.value)
 
         elif self.state == "10": # R3 or L1
-            if newState == "11": # Turned left 1
+            if newState == "00": # Turned left 1
                 self.direction = "L"
-            elif newState == "00": # Turned right 1
+            elif newState == "11": # Turned right 1
                 if self.direction == "R":
                     self.value = self.value + 1
                     if self.callback is not None:
                         self.callback(self.value)
 
-        else: # self.state == "11"
+        else: # self.state == "00"
             if newState == "01": # Turned left 1
                 self.direction = "L"
             elif newState == "10": # Turned right 1
                 self.direction = "R"
-            elif newState == "00": # Skipped an intermediate 01 or 10 state, but if we know direction then a turn is complete
+            elif newState == "11": # Skipped an intermediate 01 or 10 state, but if we know direction then a turn is complete
                 if self.direction == "L":
                     self.value = self.value - 1
                     if self.callback is not None:

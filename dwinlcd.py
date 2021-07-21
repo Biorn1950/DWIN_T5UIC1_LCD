@@ -2316,10 +2316,10 @@ class DWIN_LCD:
 				return self.ENCODER_DIFF_NO
 			self.EncodeMS = current_milli_time() + self.ENCODER_WAIT
 
-		if self.encoder.value < self.EncodeLast:
+		if self.encoder.value > self.EncodeLast:
 			self.EncodeLast = self.encoder.value
 			return self.ENCODER_DIFF_CW
-		elif self.encoder.value > self.EncodeLast:
+		elif self.encoder.value < self.EncodeLast:
 			self.EncodeLast = self.encoder.value
 			return self.ENCODER_DIFF_CCW
 		elif not GPIO.input(self.button_pin):
