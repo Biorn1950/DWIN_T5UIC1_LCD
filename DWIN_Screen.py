@@ -127,7 +127,7 @@ class T5UIC1_LCD:
 	# Set the backlight luminance
 	#  luminance: (0x00-0xFF)
 	def Backlight_SetLuminance(self, luminance):
-		self.Byte(0x30)
+		self.Byte(0x80)
 		self.Byte(_MAX(luminance, 0x1F))
 		self.Send()
 
@@ -456,17 +456,17 @@ class T5UIC1_LCD:
 	# (Nx, Ny): The coordinates of the upper left corner displayed by the QR code
 	# str: multi-bit data
 	# /**************The size of the QR code is (46*QR_Pixel)*(46*QR_Pixle) dot matrix************/
-	def QR_Code(self, QR_Pixel, Xs, Ys, data):	    # Display QR code
-		self.Byte(0x21)  # Display QR code instruction
-		self.Word(Xs)  # Two-dimensional code Xs coordinate high eight
-		self.Word(Ys)  # The Ys coordinate of the QR code is eight high
+	#def QR_Code(self, QR_Pixel, Xs, Ys, data):	    # Display QR code
+	#	self.Byte(0x21)  # Display QR code instruction
+	#	self.Word(Xs)  # Two-dimensional code Xs coordinate high eight
+	#	self.Word(Ys)  # The Ys coordinate of the QR code is eight high
 
-		if(QR_Pixel <= 6):  # Set the upper limit of pixels according to the actual screen size
-			self.Byte(QR_Pixel)  # Two-dimensional code pixel size
-		else:
-			self.Byte(0x06)  # The pixel size of the QR code exceeds the default of 1
-		self.String(data)
-		self.Send()
+	#	if(QR_Pixel <= 6):  # Set the upper limit of pixels according to the actual screen size
+	#		self.Byte(QR_Pixel)  # Two-dimensional code pixel size
+	#	else:
+	#		self.Byte(0x06)  # The pixel size of the QR code exceeds the default of 1
+	#	self.String(data)
+	#	self.Send()
 	# /*---------------------------------------- Memory functions ----------------------------------------*/
 	#  The LCD has an additional 32KB SRAM and 16KB Flash
 
