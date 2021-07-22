@@ -123,7 +123,7 @@ Run with `python3 ./run.py`
  
     * nozzle/bed temperature
     * Fan speed
-    * Display Print time, Progress, Temps, and Job name.
+    * Display Print time, Progress, Temps, and Job name
     * Pause / Resume / Cancle Job
     * Tune Menu: Print speed & Temps
 
@@ -137,9 +137,10 @@ Run with `python3 ./run.py`
  
  Info Menu
  
-    * Shows printer info.
+    * Shows printer info
 
   While printing
+
     * Pause
     * Resume
     * Cancel
