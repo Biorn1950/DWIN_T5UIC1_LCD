@@ -121,7 +121,11 @@ Divers:
         - Encoder not sync with rest pos
         - Display issue on exit
         - Sync homing popup
+        - Sync encoder with screen position (no more over positions)
 
+    Feat:
+        - add buzzer capability
+    
     Removed
         - encoderRate = true -> no wait
 
