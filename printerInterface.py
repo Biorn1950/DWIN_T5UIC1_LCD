@@ -80,11 +80,6 @@ class HMI_Flag_t:
 	step_axis = AxisEnum()
 
 
-class buzz_t:
-	def tone(self, t, n):
-		pass
-
-
 class material_preset_t:
 	def __init__(self, name, hotend_temp, bed_temp, fan_speed=100):
 		self.name = name
@@ -219,8 +214,6 @@ class PrinterData:
 	Z_PROBE_OFFSET_RANGE_MIN = -20
 	Z_PROBE_OFFSET_RANGE_MAX = 20
 
-	buzzer = buzz_t()
-
 	BABY_Z_VAR = 3.1
 	feedrate_percentage = 100
 	temphot = 0
@@ -283,6 +276,7 @@ class PrinterData:
 				status = klippyData['params']['status']
 
 		if status:
+			#print(status)
 			if 'toolhead' in status:
 				if 'position' in status['toolhead']:
 					self.current_position.x = status['toolhead']['position'][0]

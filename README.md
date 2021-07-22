@@ -48,13 +48,14 @@ To:
 
 ### Wire the display 
   * Display <-> Raspberry Pi GPIO BCM
-  * Rx  =   GPIO14  (Tx)
-  * Tx  =   GPIO15  (Rx)
-  * Ent =   GPIO13
-  * A   =   GPIO19
-  * B   =   GPIO26
-  * Vcc =   2   (5v)
-  * Gnd =   6   (GND)
+  * Rx   =   GPIO14  (Tx)
+  * Tx   =   GPIO15  (Rx)
+  * Ent  =   GPIO13
+  * A    =   GPIO19
+  * B    =   GPIO26
+  * Vcc  =   2   (5v)
+  * Gnd  =   6   (GND)
+  * BEEP =   GPIO6
 
 ### Run The Code
 
@@ -67,6 +68,7 @@ from dwinlcd import DWIN_LCD
 
 encoder_Pins = (26, 19)
 button_Pin = 13
+buzzer_Pin = 6
 LCD_COM_Port = '/dev/ttyAMA0'
 API_Key = 'XXXXXX'
 
@@ -74,6 +76,7 @@ DWINLCD = DWIN_LCD(
 	LCD_COM_Port,
 	encoder_Pins,
 	button_Pin,
+  buzzer_Pin,
 	API_Key
 )
 ```

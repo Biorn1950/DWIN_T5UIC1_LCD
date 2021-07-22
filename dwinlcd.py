@@ -8,6 +8,7 @@ from RPi import GPIO
 from printerInterface import PrinterData
 from DWIN_Screen import T5UIC1_LCD
 
+from time import sleep
 
 def current_milli_time():
 	return round(time.time() * 1000)
@@ -302,11 +303,13 @@ class DWIN_LCD:
 	# Dwen serial screen initialization
 	# Passing parameters: serial port number
 	# DWIN screen uses serial port 1 to send
-	def __init__(self, USARTx, encoder_pins, button_pin, octoPrint_API_Key):
+	def __init__(self, USARTx, encoder_pins, button_pin, buzzer_pin, octoPrint_API_Key):
 		GPIO.setmode(GPIO.BCM)
 		self.encoder = Encoder(encoder_pins[0], encoder_pins[1])
 		self.button_pin = button_pin
+		self.buzzer_pin = buzzer_pin
 		GPIO.setup(self.button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+		GPIO.setup(self.buzzer_pin,GPIO.OUT)
 		GPIO.add_event_detect(self.button_pin, GPIO.BOTH, callback=self.encoder_has_data)
 		self.encoder.callback = self.encoder_has_data
 		self.EncodeLast = 0
@@ -2310,10 +2313,14 @@ class DWIN_LCD:
 		else:
 			return self.ENCODER_DIFF_NO
 
-	def HMI_AudioFeedback(self, success=True):
-		if (success):
-			self.pd.buzzer.tone(100, 659)
-			self.pd.buzzer.tone(10, 0)
-			self.pd.buzzer.tone(100, 698)
+	def buzz(self, duration, bip_count= None, spaced= None):
+		if not bip_count:
+			GPIO.output(self.buzzer_pin,GPIO.HIGH)
+			sleep(duration) # Delay in seconds
+			GPIO.output(self.buzzer_pin,GPIO.LOW)
 		else:
-			self.pd.buzzer.tone(40, 440)
+			for i in range(1,bip_count):
+				GPIO.output(self.buzzer_pin,GPIO.HIGH)
+				sleep(duration) # Delay in seconds
+				GPIO.output(self.buzzer_pin,GPIO.LOW)
+				sleep(spaced) # Delay in seconds
