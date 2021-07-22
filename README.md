@@ -152,7 +152,7 @@ Run with `python3 ./run.py`
 
 # Thanks:
   
-  --- KevinOConnor --- For Klipper(https://github.com/KevinOConnor/klipper)
-  --- Arksine      --- For Moonraker(https://github.com/arksine/moonraker)
-  --- odwdinc      --- For DWIN_T5UIC1_LCD(https://github.com/odwdinc/DWIN_T5UIC1_LCD)
+  * KevinOConnor --- For Klipper(https://github.com/KevinOConnor/klipper)
+  * Arksine      --- For Moonraker(https://github.com/arksine/moonraker)
+  * odwdinc      --- For DWIN_T5UIC1_LCD(https://github.com/odwdinc/DWIN_T5UIC1_LCD)
 
