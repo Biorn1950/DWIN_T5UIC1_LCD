@@ -73,7 +73,7 @@ LCD_COM_Port = '/dev/ttyAMA0'
 API_Key = 'XXXXXX'
 
 DWINLCD = DWIN_LCD(
-	LCD_COM_Port,
+  LCD_COM_Port,
 	encoder_Pins,
 	button_Pin,
   buzzer_Pin,
