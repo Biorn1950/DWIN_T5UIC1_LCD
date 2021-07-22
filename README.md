@@ -4,7 +4,7 @@
 
 !!! FEEL FREE TO OPEN FEATURE REQUEST AND ISSUE !!!
 
-!!! I'll spend some time on it these weeks!!!
+!!! I'll spend some time on it these weeks !!!
 
 ## Python class for the Ender 3 V2 LCD runing klipper3d with Moonraker 
 
