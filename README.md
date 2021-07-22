@@ -1,10 +1,11 @@
 # DWIN_T5UIC1_LCD
 
-!!! NOT REALLY WORKING, I HAVE JUST PUSHED THE FIRST STUFF THAT GIVEN SOMETHING BOOTABLE !!!
+!!!   NOT REALLY WORKING, I HAVE JUST PUSHED THE FIRST STUFF THAT GIVEN SOMETHING BOOTABLE  !!!
 
-!!! FEEL FREE TO OPEN FEATURE REQUEST AND ISSUE !!!
+!!!                 FEEL FREE TO OPEN FEATURE REQUEST AND ISSUE                             !!!
 
-!!! I'll spend some time on it these weeks !!!
+!!!                    I'll spend some time on it these weeks                               !!!
+
 
 ## Python class for the Ender 3 V2 LCD runing klipper3d with Moonraker 
 
@@ -13,7 +14,7 @@ https://www.klipper3d.org
 https://github.com/arksine/moonraker
 
 
-## Setup: ( Alternative tuto https://github.com/GalvanicGlaze/DWIN_T5UIC1_LCD/wiki )
+## Setup:
 
 ### [Disable Linux serial console](https://www.raspberrypi.org/documentation/configuration/uart.md)
   By default, the primary UART is assigned to the Linux console. If you wish to use the primary UART for other purposes, you must reconfigure Raspberry Pi OS. This can be done by using raspi-config:
@@ -52,14 +53,19 @@ To:
 
 ### Wire the display 
   * Display <-> Raspberry Pi GPIO BCM
-  * Rx   =   GPIO14  (Tx)
-  * Tx   =   GPIO15  (Rx)
-  * Ent  =   GPIO13
-  * A    =   GPIO19
-  * B    =   GPIO26
-  * Vcc  =   2   (5v)
-  * Gnd  =   6   (GND)
-  * BEEP =   GPIO6
+  * 1  - Nc
+  * 2  - Nc
+  * 3  - Rx   = 8  - GPIO14  (Tx)
+  * 4  - Tx   = 10 - GPIO15  (Rx)
+  * 5  - Ent  = 33 - GPIO13
+  * 6  - Nc
+  * 7  - A    = 35 - GPIO19
+  * 8  - B    = 37 - GPIO26
+  * 9  - Vcc  = 4  - (5v)
+  * 10 - Gnd  = 6  - (GND)
+### Optional wire for buzzer
+  * 6  - BEEP = 31 - GPIO6
+
 
 ### Run The Code
 
@@ -113,20 +119,19 @@ Run with `python3 ./run.py`
 
 ## Working:
 
- Print Menu:
+  Status Area:
  
-    * List / Print jobs from OctoPrint / Moonraker
-    * Auto swiching from to Print Menu on job start / end.
+    * nozzle/bed temperature
+    * Fan speed
     * Display Print time, Progress, Temps, and Job name.
     * Pause / Resume / Cancle Job
     * Tune Menu: Print speed & Temps
 
  Perpare Menu:
  
-    * Move / Jog toolhead
     * Disable stepper
     * Auto Home
-    * Z offset (PROBE_CALIBRATE)
+    * Z offset
     * Preheat
     * cooldown
  
@@ -134,6 +139,20 @@ Run with `python3 ./run.py`
  
     * Shows printer info.
 
+  While printing
+    * Pause
+    * Resume
+    * Cancel
+
+
 ## Notworking:
-    * Save / Loding Preheat setting, hardcode on start can be changed in menu but will not retane on restart.
-    * The Control: Motion Menu
+
+  The rest
+
+
+# Thanks:
+  
+  --- KevinOConnor --- For Klipper(https://github.com/KevinOConnor/klipper)
+  --- Arksine      --- For Moonraker(https://github.com/arksine/moonraker)
+  --- odwdinc      --- For DWIN_T5UIC1_LCD(https://github.com/odwdinc/DWIN_T5UIC1_LCD)
+
