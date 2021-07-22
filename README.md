@@ -1,4 +1,4 @@
-# DWIN_T5UIC1_LCD !!! NOT WORKING BEFORE I PUSH THE FIRST STUFF!!!
+# DWIN_T5UIC1_LCD !!! NOT WORKING BEFORE I HAVE JUST PUSHED THE FIRST STUFF THAT GIVEN SOMETHING BOOTABLE!!!
 
 ## Python class for the Ender 3 V2 LCD runing klipper3d with Moonraker 
 
@@ -7,7 +7,7 @@ https://www.klipper3d.org
 https://github.com/arksine/moonraker
 
 
-## Setup:
+## Setup: ( Alternative tuto https://github.com/GalvanicGlaze/DWIN_T5UIC1_LCD/wiki )
 
 ### [Disable Linux serial console](https://www.raspberrypi.org/documentation/configuration/uart.md)
   By default, the primary UART is assigned to the Linux console. If you wish to use the primary UART for other purposes, you must reconfigure Raspberry Pi OS. This can be done by using raspi-config:
