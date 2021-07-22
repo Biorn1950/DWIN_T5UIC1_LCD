@@ -80,7 +80,7 @@ DWINLCD = DWIN_LCD(
   LCD_COM_Port,
 	encoder_Pins,
 	button_Pin,
-  buzzer_Pin,
+	buzzer_Pin,
 	API_Key
 )
 ```
