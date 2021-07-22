@@ -1,7 +1,11 @@
 # DWIN_T5UIC1_LCD
 
 !!! NOT REALLY WORKING, I HAVE JUST PUSHED THE FIRST STUFF THAT GIVEN SOMETHING BOOTABLE !!!
+
 !!! FEEL FREE TO OPEN FEATURE REQUEST AND ISSUE !!!
+
+!!! I'll spend some time on it these weeks !!!
+
 ## Python class for the Ender 3 V2 LCD runing klipper3d with Moonraker 
 
 https://www.klipper3d.org
